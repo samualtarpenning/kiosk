@@ -2,7 +2,7 @@
 This React-based single-page application (SPA) runs on a Raspberry Pi with a touchscreen, providing a UI for controlling and monitoring a Smart Garden. The app displays real-time sensor data and allows interaction with garden elements.
 
 Features
-Live Sensor Feed: Displays real-time data (e.g., soil moisture, temperature, humidity) via WebSockets. <br/>
+<b>Live Sensor Feed:</b> Displays real-time data (e.g., soil moisture, temperature, humidity) via WebSockets. <br/>
 <b>Data Storage:</b> Sensor data is stored in an SQLite database for later reporting and analysis. <br/>
 <b>Interactive UI:</b> Optimized for touchscreen, offering easy access to controls and data visualizations.
 <h4>Tech Stack</h4>
