@@ -1,0 +1,19 @@
+.cycle-button-start {
+  background-color: #4caf50;
+  border: none;
+
+  margin-right: 8%;
+}
+
+.cycle-button-stop {
+  background-color: #f44336;
+  border: none;
+  margin-right: 8%;
+}
+
+.cycling-label {
+  font-size: 1.5em;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
