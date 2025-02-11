@@ -12,7 +12,7 @@ const TempChartDaily = (props: any) => {
   const getDailyData = async () => {
     try {
       axios
-        .get(base_url + "/getTemperatureDataLast24Hours")
+        .get(base_url + `/getTemperatureDataLast24Hours?date=${moment(props.date).format("YYYY-MM-DD")}`)
         .then((response) => {
           setTemperatureData(response.data);
           console.log(response.data.map((data: any) => data.temperature));

@@ -140,3 +140,43 @@
   }
 }
 
+.data-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.table-header {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table-row {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-cell {
+  padding: 12px;
+  font-size: 12px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-cell:last-child {
+  border-right: none;
+}
+
+.table-header .table-cell {
+  background-color: #e0e0e0;
+}
+
+.table-row:hover {
+  background-color: #f9f9f9;
+}
+
+.pagination-container {
+  float: right;
+  margin: 5px;
+}
