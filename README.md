@@ -10,8 +10,6 @@ This React-based single-page application (SPA) runs on a Raspberry Pi with a tou
 <b>Backend:</b> C# WebSocket server, SQLite for data storage<br/>
 <b>Hardware:</b> Raspberry Pi with touchscreen(Frontend), Esp8266 for reading sensor data, and a Raspberry pi running Ubunutu for the backend
 
-![image](https://github.com/user-attachments/assets/c68a2cad-f969-43b2-a04e-739438fcc89b)
-![image](https://github.com/user-attachments/assets/5f9d1153-fa00-44fe-9596-e2c440fedaff)
-![image](https://github.com/user-attachments/assets/8f292b1a-2e4f-480a-ab78-01ac7ba6de97)
+
 
 
