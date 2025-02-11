@@ -1,0 +1,30 @@
+.custom-select {
+  font-size: 12px;
+  height: 20px;
+  margin-top: -10px;
+}
+
+.custom-select .select-interface-option {
+  font-size: 12px;
+}
+
+.custom-select .select-placeholder {
+  font-size: 12px;
+}
+
+.analytics-card-select {
+  height: 48px;
+}
+.custom-item {
+  margin-top: -10px;
+  margin-right: 18px;
+  height: 24px;
+}
+
+.custom-item ion-icon {
+  margin-right: 13px;
+}
+
+.custom-select {
+  width: 100%;
+}

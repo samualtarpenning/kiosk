@@ -8,25 +8,28 @@ import moment from "moment";
 import { IonCard, useIonViewWillEnter } from "@ionic/react";
 
 const HumidityChartDaily = (props: any) => {
- const [humidityData, setHumidityData] = useState([]);
+  const [temperatureData, setTemperatureData] = useState([]);
   const getDailyData = async () => {
     try {
       axios
-        .get(base_url + "/getTemperatureDataLast24Hours")
+        .get(base_url + `/getTemperatureDataLast24Hours?date=${moment(props.date).format("YYYY-MM-DD")}`)
         .then((response) => {
-            setHumidityData(response.data);
+          setTemperatureData(response.data);
           console.log(response.data.map((data: any) => data.temperature));
         });
     } catch (error) {
       console.error(error);
     }
   };
+
   useMemo(() => {
     getDailyData();
   }, []);
+
   useIonViewWillEnter(() => {
     getDailyData();
     }, []);
+
   const options: any = useMemo(
     () => ({
       chart: {
@@ -48,17 +51,17 @@ const HumidityChartDaily = (props: any) => {
       },
       series: [
         {
-          name: "Humidity" ,
-          data: humidityData.map((data: any) => data.humidity + "%"),
+          name: "Temperature",
+          data: temperatureData.map((data: any) => data.humidity + "%"),
         },
       ],
       xaxis: {
-        categories: humidityData.map((data: any) =>
+        categories: temperatureData.map((data: any) =>
           moment(data.dateTime).format("MM/DD HH:mm")
         ),
       },
     }),
-    [humidityData]
+    [temperatureData]
   );
 
   return (

@@ -6,6 +6,7 @@ import {
   IonCol,
   IonContent,
   IonGrid,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -18,34 +19,68 @@ import {
 } from "@ionic/react";
 import "./Home.css";
 import axios from "axios";
-
+import { arrowBack } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import HalfCircleProgressBar from "../components/TimerProgress";
-import TempChartDaily from "../components/TempChart.Daily";
-import HumidityChartDaily from "../components/HumidityChart.Daily";
-import { base_url } from "../App/Constants";
-import { DailyTemperatureReading } from "../Models/dailyTemperature";
-import moment from "moment";
+import "./Analytics.css";
 import DailyTemperatureReport from "../components/DailyTemperatureReport";
-const reportTypes = ["Temperature", "Humidity"];
-
+const reportTypes = ["Temperature/Humidity"];
+const drillDownReportTypes = ["Temperature", "Humidity"];
 const Analytics: React.FC = () => {
+  const [showDrillDown, setShowDrillDown] = useState(false);
+  const [reportType, setReportType] = useState("Temperature/Humidity");
+  const [drillDownReportType, setDrillDownReportType] = useState("Temperature");
   return (
     <IonPage>
-      <IonContent fullscreen>
-        {/* <IonCard>
+      <IonContent>
+        <IonCard className="analytics-card-select">
           <IonList>
             <IonItem>
-              <IonSelect label="Default label" placeholder="Favorite Fruit">
-                <IonSelectOption value="apple">Apple</IonSelectOption>
-                <IonSelectOption value="banana">Banana</IonSelectOption>
-                <IonSelectOption value="orange">Orange</IonSelectOption>
+              {showDrillDown && (
+                <IonIcon
+                  className="custom-item"
+                  icon={arrowBack}
+                  onClick={() => {
+                    setShowDrillDown(false);
+                  }}
+                />
+              )}
+              {showDrillDown ? (
+                <IonSelect
+                className="custom-select"
+                label="Report Type"
+                
+                placeholder="Select a report type"
+                value={drillDownReportType}
+                onIonChange={(e) => setDrillDownReportType(e.detail.value)}
+              >
+                {drillDownReportTypes.map((reportType) => (
+                  <IonSelectOption key={reportType} value={reportType}>
+                    {reportType}
+                  </IonSelectOption>
+                ))}
               </IonSelect>
+              ) : (
+                <IonSelect
+                  className="custom-select"
+                  label="Report Type"
+                  placeholder="Select a report type"
+                  value={reportType}
+                >
+                  {reportTypes.map((reportType) => (
+                    <IonSelectOption key={reportType} value={reportType}>
+                      {reportType}
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
+              )}
             </IonItem>
           </IonList>
-        </IonCard> */}
-        <DailyTemperatureReport />
+        </IonCard>
+        <DailyTemperatureReport
+          showDrillDown={showDrillDown}
+          setShowDrillDown={(value: boolean) => setShowDrillDown(value)}
+          drillDownReportType={drillDownReportType}
+        />
       </IonContent>
     </IonPage>
   );

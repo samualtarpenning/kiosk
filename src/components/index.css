@@ -146,8 +146,8 @@
 }
 
 .table-header {
-  background-color: #f1f1f1;
-  font-weight: bold;
+  background-color: #6b6e74;
+  color: black;
   text-align: center;
 }
 
@@ -169,7 +169,8 @@
 }
 
 .table-header .table-cell {
-  background-color: #e0e0e0;
+  background-color: #d0d3d6;
+  font-size: 12px;
 }
 
 .table-row:hover {
@@ -179,4 +180,10 @@
 .pagination-container {
   float: right;
   margin: 5px;
+}
+.pagination-icon {
+ font-size: 29px;
+  margin: 0 20px;
+  cursor: pointer;
+
 }
