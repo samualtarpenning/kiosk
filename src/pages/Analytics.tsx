@@ -23,7 +23,7 @@ import { arrowBack } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import "./Analytics.css";
 import DailyTemperatureReport from "../components/DailyTemperatureReport";
-const reportTypes = ["Temperature/Humidity"];
+const reportTypes = ["Temperature/Humidity", "CO₂", "pH"];
 const drillDownReportTypes = ["Temperature", "Humidity"];
 const Analytics: React.FC = () => {
   const [showDrillDown, setShowDrillDown] = useState(false);
@@ -36,6 +36,10 @@ const Analytics: React.FC = () => {
           <IonList>
             <IonItem>
               {showDrillDown && (
+                <div style={{
+                  width: 50,
+                  height: "100%", display: "flex", justifyContent: "center", alignItems: "center"
+              }}>
                 <IonIcon
                   className="custom-item"
                   icon={arrowBack}
@@ -43,6 +47,7 @@ const Analytics: React.FC = () => {
                     setShowDrillDown(false);
                   }}
                 />
+              </div>
               )}
               {showDrillDown ? (
                 <IonSelect
@@ -72,6 +77,7 @@ const Analytics: React.FC = () => {
                     </IonSelectOption>
                   ))}
                 </IonSelect>
+                
               )}
             </IonItem>
           </IonList>

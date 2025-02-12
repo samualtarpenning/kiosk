@@ -2,6 +2,7 @@ import {
   IonBackButton,
   IonBadge,
   IonButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -10,9 +11,11 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
+  IonModal,
   IonPage,
   IonRow,
   IonTitle,
@@ -34,13 +37,18 @@ import { TemperatureGauge } from "../components/TemperatureGauge";
 import { HumidityGauge } from "../components/HumdityGauge";
 import { Co2ConcentrationGauge } from "../components/Co2ConcentrationGauge";
 import { PhBalanceGauge } from "../components/PhBalanceGauge";
-
+import { water, thermometer } from "ionicons/icons";
+import TempChartDaily from "../components/TempChart.Daily";
+import moment from "moment";
+import HumidityChartDaily from "../components/HumidityChart.Daily";
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   const device = useSelector((state: any) => state.device);
   const temperatureSensor = useSelector((state: any) => state.temperature);
   const co2Concentration = useSelector((state: any) => state.co2);
   const MessageLog = useSelector((state: any) => state.log);
+  const [isOpen, setIsOpen] = useState(false);
+  const [reportType, setReportType] = useState("Temperature/Humidity");
   const [relay1, setRelay1] = useState(device.relay1);
   const [relay2, setRelay2] = useState(device.relay2);
   const [relay3, setRelay3] = useState(device.relay3);
@@ -206,13 +214,25 @@ const Home: React.FC = () => {
               style={{ flex: 1, margin: "10px" }}
             >
               <IonCardHeader>
-                <IonLabel className="card-label">{device.label} </IonLabel>
-                <IonBadge
+                <IonLabel className="card-label">
+                  {device.label}{" "}
+                  <span
+                    style={{
+                      borderRadius: "50%",
+                      width: "18px",
+                      height: "18px",
+                      display: "inline-block",
+                      marginLeft: "14px",
+                      backgroundColor: device.status ? "#00ff7b" : "red",
+                    }}
+                  ></span>
+                </IonLabel>
+                {/* <IonBadge
                   className="status-badge"
                   color={device.status ? "success" : "warning"}
                 >
                   {device.status ? "Active" : "Inactive"}
-                </IonBadge>
+                </IonBadge> */}
               </IonCardHeader>
               <IonCardContent>
                 <label
@@ -263,18 +283,22 @@ const Home: React.FC = () => {
           <IonCard
             className="status-card"
             style={{ flex: 1, margin: "10px", height: "180px" }}
+            onClick={() => {
+              setReportType("Temperature");
+              setIsOpen(true);
+            }}
+
           >
             <IonCardHeader>
               <div
                 style={{
-                  marginTop: "10px",
-                  fontSize: "23px",
+                  fontSize: "21px",
                   color: "#555",
                   margin: "auto",
                   marginLeft: "14px",
                 }}
               >
-                🌡️{temperatureSensor.temperature}°F
+                Temp: {temperatureSensor.temperature}°F
               </div>
               <TemperatureGauge temperature={temperatureSensor.temperature} />
             </IonCardHeader>
@@ -283,18 +307,21 @@ const Home: React.FC = () => {
           <IonCard
             className="status-card"
             style={{ flex: 1, margin: "10px", height: "180px" }}
+            onClick={() => {
+              setReportType("Humidity");
+              setIsOpen(true);
+            }}
           >
             <IonCardHeader>
               <div
                 style={{
                   marginTop: "10px",
-                  fontSize: "23px",
+                  fontSize: "21px",
                   color: "#555",
                   margin: "auto",
-                  marginLeft: "20px",
                 }}
               >
-                💧 {temperatureSensor.humidity}%
+                Humidity: {temperatureSensor.humidity}%
               </div>
               <HumidityGauge humidity={temperatureSensor.humidity} />
             </IonCardHeader>
@@ -307,7 +334,7 @@ const Home: React.FC = () => {
               <div
                 style={{
                   marginTop: "10px",
-                  fontSize: "23px",
+                  fontSize: "21px",
                   color: "#555",
                   margin: "auto",
                 }}
@@ -325,14 +352,14 @@ const Home: React.FC = () => {
               <div
                 style={{
                   marginTop: "10px",
-                  fontSize: "23px",
+                  fontSize: "21px",
                   color: "#555",
                   margin: "auto",
                 }}
               >
                 pH: 7.6
               </div>
-              <PhBalanceGauge phLevel={6.5} />
+              <PhBalanceGauge phLevel={7.6} />
             </IonCardHeader>
           </IonCard>
         </div>
@@ -343,6 +370,28 @@ const Home: React.FC = () => {
             <IonChip color="danger">Disconnected</IonChip>
           )}
         </div>
+        <IonModal isOpen={isOpen}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>{reportType} - {moment().format("MM/DD/YYYY")}</IonTitle>
+              <IonButtons slot="end">
+                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            <IonCard>
+            
+          {reportType === "Temperature" && (
+            <TempChartDaily date={moment().format("YYYY-MM-DD")} />
+          )}
+          \{reportType === "Humidity" && (
+             <HumidityChartDaily date={moment().format("YYYY-MM-DD")}/>
+          )}
+
+            </IonCard>
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

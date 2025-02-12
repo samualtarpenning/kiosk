@@ -99,6 +99,7 @@ const DailyTemperatureReport = (props: any) => {
 
             {/* Table Data */}
             {data.map((row: DailyTemperatureReading) => (
+            
               <IonRow
                 key={row.date}
                 className="table-row"

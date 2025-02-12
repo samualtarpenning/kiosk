@@ -18,11 +18,12 @@
 .custom-item {
   margin-top: -10px;
   margin-right: 18px;
-  height: 24px;
+  height: 20px;
 }
 
 .custom-item ion-icon {
   margin-right: 13px;
+  height: 30px;
 }
 
 .custom-select {
