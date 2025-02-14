@@ -16,6 +16,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonIcon,
+  useIonViewDidEnter,
 } from "@ionic/react";
 import "./index.css"; // Custom CSS for table styling
 import moment from "moment";
@@ -45,6 +46,10 @@ const DailyTemperatureReport = (props: any) => {
   };
   useEffect(() => {
     getTotalPages();
+    getDailyTemperatureData();
+  }, [currentPage]);
+
+  useIonViewDidEnter(() => {
     getDailyTemperatureData();
   }, [currentPage]);
 
@@ -99,7 +104,6 @@ const DailyTemperatureReport = (props: any) => {
 
             {/* Table Data */}
             {data.map((row: DailyTemperatureReading) => (
-            
               <IonRow
                 key={row.date}
                 className="table-row"
@@ -112,7 +116,13 @@ const DailyTemperatureReport = (props: any) => {
                   <IonLabel>{moment(row.date).format("MM/DD/YYYY")}</IonLabel>
                 </IonCol>
                 <IonCol size="1.7" className="table-cell">
-                  <IonLabel>
+                  <IonLabel
+                    style={
+                      row.avgTemperature > 80 || row.avgTemperature < 65
+                        ? { color: "red" }
+                        : {}
+                    }
+                  >
                     {
                       // Display average temperature in Fahrenheit on decimal places
                       row.avgTemperature.toFixed(2) + " °F"
@@ -120,7 +130,11 @@ const DailyTemperatureReport = (props: any) => {
                   </IonLabel>
                 </IonCol>
                 <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.avgHumidity.toFixed(2) + "%"}</IonLabel>
+                  <IonLabel   style={
+                      row.avgHumidity > 45 || row.avgHumidity < 80
+                        ? { color: "red" }
+                        : {}
+                    }>{row.avgHumidity.toFixed(2) + "%"}</IonLabel>
                 </IonCol>
                 <IonCol size="1.7" className="table-cell">
                   <IonLabel>{row.maxTemperature.toFixed(2) + " °F"}</IonLabel>
@@ -166,12 +180,11 @@ const DailyTemperatureReport = (props: any) => {
         </IonCard>
       ) : (
         <IonCard>
-            {props.drillDownReportType === "Temperature" ? (
-                <TempChartDaily date={queryDate} />
-            ) : (
-                <HumidityChartDaily date={queryDate} />
-            )}
-            
+          {props.drillDownReportType === "Temperature" ? (
+            <TempChartDaily date={queryDate} />
+          ) : (
+            <HumidityChartDaily date={queryDate} />
+          )}
         </IonCard>
       )}
     </>

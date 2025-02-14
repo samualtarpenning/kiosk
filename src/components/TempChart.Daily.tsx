@@ -57,7 +57,7 @@ const TempChartDaily = (props: any) => {
       ],
       xaxis: {
         categories: temperatureData.map((data: any) =>
-          moment(data.dateTime).format("MM/DD HH:mm")
+          moment(data.dateTime).format("MM/DD hh:mm a")
         ),
       },
     }),

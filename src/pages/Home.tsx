@@ -292,7 +292,7 @@ const Home: React.FC = () => {
             <IonCardHeader>
               <div
                 style={{
-                  fontSize: "21px",
+                  fontSize: "19px",
                   color: "#555",
                   margin: "auto",
                   marginLeft: "14px",
@@ -316,7 +316,7 @@ const Home: React.FC = () => {
               <div
                 style={{
                   marginTop: "10px",
-                  fontSize: "21px",
+                  fontSize: "19px",
                   color: "#555",
                   margin: "auto",
                 }}
@@ -334,7 +334,7 @@ const Home: React.FC = () => {
               <div
                 style={{
                   marginTop: "10px",
-                  fontSize: "21px",
+                  fontSize: "19px",
                   color: "#555",
                   margin: "auto",
                 }}
@@ -352,7 +352,7 @@ const Home: React.FC = () => {
               <div
                 style={{
                   marginTop: "10px",
-                  fontSize: "21px",
+                  fontSize: "19px",
                   color: "#555",
                   margin: "auto",
                 }}
@@ -383,10 +383,10 @@ const Home: React.FC = () => {
             <IonCard>
             
           {reportType === "Temperature" && (
-            <TempChartDaily date={moment().format("YYYY-MM-DD")} />
+            <TempChartDaily date={moment().local().format("YYYY-MM-DD")} />
           )}
           \{reportType === "Humidity" && (
-             <HumidityChartDaily date={moment().format("YYYY-MM-DD")}/>
+             <HumidityChartDaily date={moment().local().format("YYYY-MM-DD")}/>
           )}
 
             </IonCard>
