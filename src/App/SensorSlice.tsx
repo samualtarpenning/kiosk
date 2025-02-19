@@ -22,7 +22,6 @@ export const co2ConcentrationSlice = createSlice({
   },
   reducers: {
     updateCo2ConcentrationState: (state, action) => {
-      console.log("Updating co2 state:", action.payload.ppm);
       state.ppm = action.payload.ppm;
     },
   },

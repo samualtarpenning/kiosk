@@ -37,7 +37,7 @@ const Analytics: React.FC = () => {
             <IonItem>
               {showDrillDown && (
                 <div style={{
-                  width: 50,
+                  width: 75,
                   height: "100%", display: "flex", justifyContent: "center", alignItems: "center"
               }}>
                 <IonIcon

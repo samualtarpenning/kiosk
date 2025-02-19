@@ -54,7 +54,7 @@ const HalfCircleProgressBar = (props: any) => {
           },
           track: {
             background: "#fff",
-            strokeWidth: "67%",
+            strokeWidth: "17%",
             margin: 0,
             dropShadow: {
               enabled: true,
@@ -70,7 +70,7 @@ const HalfCircleProgressBar = (props: any) => {
               offsetY: -15,
               show: true,
               color: "#888",
-              fontSize: "17px",
+              fontSize: "15px",
             },
             value: {
               formatter: function (va: string) {
@@ -90,7 +90,7 @@ const HalfCircleProgressBar = (props: any) => {
           shade: "dark",
           type: "horizontal",
           shadeIntensity: 0.5,
-          gradientToColors: ["#ABE5A1"],
+          gradientToColors: ["#244d9a"],
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,

@@ -97,9 +97,9 @@ const Settings: React.FC = () => {
         });
         await axios.get(base_url + "/startLightTimers");
         setSettings({ ...settings, lightShouldStop: 0 });
-        axios.get(base_url + "/relay2On");
+        axios.get(base_url + "/relay3On");
         setTimeout(() => {
-          axios.get(base_url + "/relay2Off");
+          axios.get(base_url + "/relay3Off");
         }, settings.lightOnTime);
         break;
       case "fan":
@@ -110,10 +110,10 @@ const Settings: React.FC = () => {
         });
         await axios.get(base_url + "/startFanTimers");
         setTimeout(() => {
-          axios.get(base_url + "/relay4Off");
+          axios.get(base_url + "/relay2Off");
         }, settings.fanOnTime);
         setSettings({ ...settings, fanShouldStop: 0 });
-        axios.get(base_url + "/relay4On");
+        axios.get(base_url + "/relay2On");
         break;
       case "exhaust":
         await axios.post(base_url + "/updateSettings", {
@@ -123,10 +123,10 @@ const Settings: React.FC = () => {
         });
         await axios.get(base_url + "/startExhaustTimers");
         setTimeout(() => {
-          axios.get(base_url + "/relay3Off");
+          axios.get(base_url + "/relay4Off");
         }, settings.exhaustOffTime);
         setSettings({ ...settings, exhaustShouldStop: 0 });
-        axios.get(base_url + "/relay3On");
+        axios.get(base_url + "/relay4On");
         break;
     }
   };
@@ -148,7 +148,7 @@ const Settings: React.FC = () => {
           ...settings,
           lightShouldStop: 1,
         });
-        axios.get(base_url + "/relay2Off");
+        axios.get(base_url + "/relay3Off");
         setSettings({ ...settings, lightShouldStop: 1 });
         break;
       case "fan":
@@ -158,14 +158,14 @@ const Settings: React.FC = () => {
           fanShouldStop: 1,
         });
         setSettings({ ...settings, fanShouldStop: 1 });
-        axios.get(base_url + "/relay4Off");
+        axios.get(base_url + "/relay2Off");
         break;
       case "exhaust":
         await axios.post(base_url + "/updateSettings", {
           ...settings,
           exhaustShouldStop: 1,
         });
-        axios.get(base_url + "/relay3Off");
+        axios.get(base_url + "/relay4Off");
         setSettings({ ...settings, exhaustShouldStop: 1 });
         break;
     }
@@ -173,7 +173,8 @@ const Settings: React.FC = () => {
   useEffect(() => {
     getSettings();
     console.log(device);
-  }, []);
+  }, []); 
+
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -195,7 +196,7 @@ const Settings: React.FC = () => {
                 <IonRow>
                   <IonCol size="6">
                     <IonItem>
-                      <IonLabel>Status</IonLabel>
+                      <IonLabel  style={{fontSize: "14px"}} >Status</IonLabel>
                       <IonBadge
                         className="status-badge"
                         color={device.relay1 ? "success" : "warning"}
@@ -224,6 +225,7 @@ const Settings: React.FC = () => {
                           });
                           dispatch(updateLogState("Pump Off Timer Updated"));
                         }}
+                        style={{fontSize: "14px"}}  
                         value={settings?.pumpOnTime}
                         placeholder="Select One"
                         interfaceOptions={{
@@ -246,6 +248,7 @@ const Settings: React.FC = () => {
                     <IonItem>
                       <IonSelect
                         label="Pump Off"
+                        style={{fontSize: "14px"}}  
                         onIonChange={(e) => {
                           console.log(e.detail.value);
                           setSettings({
@@ -329,17 +332,18 @@ const Settings: React.FC = () => {
                 <IonRow>
                   <IonCol size="6">
                     <IonItem>
-                      <IonLabel>Status</IonLabel>
+                      <IonLabel  style={{fontSize: "14px"}} >Status</IonLabel>
                       <IonBadge
                         className="status-badge"
-                        color={device.relay2 ? "success" : "warning"}
+                        color={device.relay3 ? "success" : "warning"}
                       >
-                        {device.relay2 ? "Active" : "Inactive"}
+                        {device.relay3 ? "Active" : "Inactive"}
                       </IonBadge>
                     </IonItem>
                     <IonItem>
                       <IonSelect
                         label="Light On"
+                        style={{fontSize: "14px"}}  
                         onIonChange={(e) => {
                           console.log(e.detail.value);
                           setSettings({
@@ -378,6 +382,7 @@ const Settings: React.FC = () => {
                     <IonItem>
                       <IonSelect
                         label="Light Off"
+                        style={{fontSize: "14px"}}
                         onIonChange={(e) => {
                           console.log(e.detail.value);
                           setSettings({
@@ -441,12 +446,12 @@ const Settings: React.FC = () => {
                     <div style={{ marginTop: "-5px" }}>
                       <HalfCircleProgressBar
                         duration={
-                          device.relay2
+                          device.relay3
                             ? settings.lightOnTime
                             : settings.lightOffTime
                         }
                         shouldStop={settings.lightShouldStop}
-                        status={device.relay2}
+                        status={device.relay3}
                       />
                     </div>
                   </IonCol>
@@ -468,16 +473,17 @@ const Settings: React.FC = () => {
                   <IonCol size="6">
                     <IonList>
                       <IonItem>
-                        <IonLabel>Status</IonLabel>
+                        <IonLabel  style={{fontSize: "14px"}} >Status</IonLabel>
                         <IonBadge
                           className="status-badge"
-                          color={device.relay4 ? "success" : "warning"}
+                          color={device.relay2 ? "success" : "warning"}
                         >
-                          {device.relay4 ? "Active" : "Inactive"}
+                          {device.relay2 ? "Active" : "Inactive"}
                         </IonBadge>
                       </IonItem>
                       <IonItem>
                         <IonSelect
+                         style={{fontSize: "14px"}}  
                           label="Fan On"
                           onIonChange={(e) => {
                             setSettings({
@@ -515,6 +521,7 @@ const Settings: React.FC = () => {
                       <IonItem>
                         <IonSelect
                           label="Fan Off"
+                          style={{fontSize: "14px"}}  
                           onIonChange={(e) => {
                             console.log(e.detail.value);
                             setSettings({
@@ -580,12 +587,12 @@ const Settings: React.FC = () => {
                     <div style={{ marginTop: "-5px" }}>
                       <HalfCircleProgressBar
                         duration={
-                          device.relay4
+                          device.relay2
                             ? settings.fanOnTime
                             : settings.fanOffTime
                         }
                         shouldStop={settings.fanShouldStop}
-                        status={device.relay4}
+                        status={device.relay2}
                       />
                     </div>
                     </div>
@@ -606,16 +613,17 @@ const Settings: React.FC = () => {
                   <IonCol size="6">
                     <IonList>
                       <IonItem>
-                        <IonLabel>Status</IonLabel>
+                        <IonLabel  style={{fontSize: "14px"}} >Status</IonLabel>
                         <IonBadge
                           className="status-badge"
-                          color={device.relay3 ? "success" : "warning"}
+                          color={device.relay4 ? "success" : "warning"}
                         >
-                          {device.relay3 ? "Active" : "Inactive"}
+                          {device.relay4 ? "Active" : "Inactive"}
                         </IonBadge>
                       </IonItem>
                       <IonItem>
                         <IonSelect
+                         style={{fontSize: "14px"}}  
                           label="Outflow On"
                           onIonChange={(e) => {
                             console.log(e.detail.value);
@@ -637,6 +645,9 @@ const Settings: React.FC = () => {
                           placeholder="Select One"
                         >
                           <IonSelectOption value={0}>Off</IonSelectOption>
+                          <IonSelectOption value={15003}>
+                            15 Seconds
+                          </IonSelectOption>
                           <IonSelectOption value={900001}>
                             15 Min
                           </IonSelectOption>
@@ -651,6 +662,7 @@ const Settings: React.FC = () => {
                       <IonItem>
                         <IonSelect
                           label="Outflow Off"
+                          style={{fontSize: "14px"}}  
                           onIonChange={(e) => {
                             console.log(e.detail.value);
                             setSettings({
@@ -671,6 +683,9 @@ const Settings: React.FC = () => {
                           placeholder="Select One"
                         >
                           <IonSelectOption value={0}>Off</IonSelectOption>
+                          <IonSelectOption value={15003}>
+                            15 Seconds
+                          </IonSelectOption>
                           <IonSelectOption value={900000}>
                             15 Min
                           </IonSelectOption>
@@ -712,12 +727,12 @@ const Settings: React.FC = () => {
                     <div style={{ marginTop: "-5px" }}>
                       <HalfCircleProgressBar
                         duration={
-                          device.relay3
+                          device.relay4
                             ? settings.exhaustOnTime
                             : settings.exhaustOffTime
                         }
                         shouldStop={settings.exhaustShouldStop}
-                        status={device.relay3}
+                        status={device.relay4}
                       />
                     </div>
                   </IonCol>

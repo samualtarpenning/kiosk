@@ -27,12 +27,10 @@ import TempChartDaily from "./TempChart.Daily";
 import { DailyTemperatureReading } from "../Models/dailyTemperature";
 import HumidityChartDaily from "./HumidityChart.Daily";
 const DailyTemperatureReport = (props: any) => {
-  const itemsPerPage = 5; // Number of items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [queryDate, setQueryDate] = useState("");
-  const [drillDownReportType, setDrillDownReportType] = useState("Temperature");
   const getTotalPages = async () => {
     const res = await axios.get(`${base_url}/getTotalPages`); // Total number of page
     console.log(res.data);
@@ -66,11 +64,7 @@ const DailyTemperatureReport = (props: any) => {
     }
   };
 
-  const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
+ 
   return (
     <>
       {" "}
