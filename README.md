@@ -6,7 +6,7 @@ This React-based single-page application (SPA) runs on a Raspberry Pi with a tou
 <b>Data Storage:</b> Sensor data is stored in an SQLite database for later reporting and analysis. <br/>
 <b>Interactive UI:</b> Optimized for touchscreen, offering easy access to controls and data visualizations with Redux.
 <h4>Tech Stack</h4>
-<b>Frontend:</b> React(SPA), WebSocket(Signal R) for live data<br/>
+<b>Frontend:</b> React, WebSocket(Signal R) for live data, Redux for state management<br/>
 <b>Backend:</b> C# WebSocket server, SQLite for data storage<br/>
 <b>Hardware:</b> Raspberry Pi with touchscreen(Frontend), Esp8266 for reading sensor data, and a Raspberry pi running Ubunutu for the backend
 
