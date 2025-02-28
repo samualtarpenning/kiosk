@@ -140,50 +140,81 @@
   }
 }
 
+/* Glassmorphism style for table container */
 .data-table {
   width: 100%;
   margin-top: 20px;
+  background: rgba(255, 255, 255, 0.1); /* Transparent white */
+  backdrop-filter: blur(10px); /* Blurring the background */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+/* Table header styling */
 .table-header {
-  background-color: #6b6e74;
+  background-color: rgba(255, 255, 255, 0.2); /* Light, translucent header */
   color: black;
   text-align: center;
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  font-size: 14px;
+  font-weight: bold;
 }
 
+/* Table row styling */
 .table-row {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+/* Styling for cells */
 .table-cell {
   padding: 12px;
   font-size: 12px;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1); /* Slight background for cell */
 }
 
+/* Remove right border for the last cell */
 .table-cell:last-child {
   border-right: none;
 }
 
+/* Different background for the header cells */
 .table-header .table-cell {
-  background-color: #d0d3d6;
-  font-size: 12px;
+  background-color: rgba(255, 255, 255, 0.3); /* Transparent white for header */
+  font-size: 14px;
 }
 
+/* Hover effect on rows */
 .table-row:hover {
-  background-color: #f9f9f9;
+  background-color: rgba(0, 0, 0, 0.05); /* Light gray hover */
 }
 
-.pagination-container {
-  float: right;
-  margin: 5px;
+/* Striped table rows */
+.table-row:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.05); /* Slight gray for odd rows */
 }
+
+/* Pagination container */
+.pagination-container {
+  float: left;
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: center; /* Center the items horizontally */
+  margin-top: 10px;
+}
+
+/* Pagination icon styling */
 .pagination-icon {
- font-size: 29px;
+  font-size: 29px;
   margin: 0 20px;
   cursor: pointer;
-
+}
+.pagination-count {
+  float: right;
+  font-size: 14px;
+  margin: 0 10px;
 }

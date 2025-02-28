@@ -26,22 +26,27 @@ import axios from "axios";
 import { base_url } from "../App/Constants";
 import { chevronBack, chevronForward } from "ionicons/icons";
 import TempChartDaily from "./TempChart.Daily";
-import { DailyTemperatureReading } from "../Models/dailyTemperature";
+import {
+  DailyCo2ConcentrationReading,
+  DailyTemperatureReading,
+} from "../Models/dailyTemperature";
 import HumidityChartDaily from "./HumidityChart.Daily";
-const DailyTemperatureReport = (props: any) => {
+import Co2ChartDaily from "./Co2ConcentrationChart.Daily";
+const DailyCo2Report = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [queryDate, setQueryDate] = useState("");
-  const [drillDownReportType, setDrillDownReportType] = useState("Temperature");
+  const [drillDownReportType, setDrillDownReportType] =
+    useState("DailyCo2Report");
   const getTotalPages = async () => {
     const res = await axios.get(`${base_url}/getTotalPages`); // Total number of page
     console.log(res.data);
     setTotalPages(res.data);
   };
   const getDailyTemperatureData = async () => {
-    const res = await axios.post(`${base_url}/getTemperatureReadings`, {
+    const res = await axios.post(`${base_url}/getCo2eReadings`, {
       pageNumber: currentPage,
     });
     setData(res.data.reverse());
@@ -80,27 +85,19 @@ const DailyTemperatureReport = (props: any) => {
                 <IonLabel>Date</IonLabel>
               </IonCol>
               <IonCol size="1.7" className="table-cell">
-                <IonLabel>Avg. Temperature</IonLabel>
+                <IonLabel>Avg. PPM</IonLabel>
+              </IonCol>
+
+              <IonCol size="1.7" className="table-cell">
+                <IonLabel>Max PPM</IonLabel>
               </IonCol>
               <IonCol size="1.7" className="table-cell">
-                <IonLabel>Avg. Humidity</IonLabel>
-              </IonCol>
-              <IonCol size="1.7" className="table-cell">
-                <IonLabel>Max Temperature</IonLabel>
-              </IonCol>
-              <IonCol size="1.7" className="table-cell">
-                <IonLabel>Min Temperature</IonLabel>
-              </IonCol>
-              <IonCol size="1.7" className="table-cell">
-                <IonLabel>Max Humidity</IonLabel>
-              </IonCol>
-              <IonCol size="1.7" className="table-cell">
-                <IonLabel>Min Humidity</IonLabel>
+                <IonLabel>Min PPM</IonLabel>
               </IonCol>
             </IonRow>
 
             {/* Table Data */}
-            {data.map((row: DailyTemperatureReading) => (
+            {data.map((row: DailyCo2ConcentrationReading) => (
               <IonRow
                 key={row.date}
                 className="table-row"
@@ -113,41 +110,19 @@ const DailyTemperatureReport = (props: any) => {
                   <IonLabel>{moment(row.date).format("MM/DD/YYYY")}</IonLabel>
                 </IonCol>
                 <IonCol size="1.7" className="table-cell">
-                  <IonLabel
-                    style={
-                      row.avgTemperature > 80 || row.avgTemperature < 65
-                        ? { color: "red" }
-                        : {}
-                    }
-                  >
+                  <IonLabel>
                     {
                       // Display average temperature in Fahrenheit on decimal places
-                      row.avgTemperature.toFixed(2) + " °F"
+                      row.avgPpm.toFixed(2)
                     }
                   </IonLabel>
                 </IonCol>
+
                 <IonCol size="1.7" className="table-cell">
-                  <IonLabel
-                    style={
-                      row.avgHumidity > 45 || row.avgHumidity < 80
-                        ? { color: "red" }
-                        : {}
-                    }
-                  >
-                    {row.avgHumidity.toFixed(2) + "%"}
-                  </IonLabel>
+                  <IonLabel>{row.maxPpm.toFixed(2)}</IonLabel>
                 </IonCol>
                 <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.maxTemperature.toFixed(2) + " °F"}</IonLabel>
-                </IonCol>
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.minTemperature.toFixed(2) + " °F"}</IonLabel>
-                </IonCol>
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.maxHumidity.toFixed(2) + "%"}</IonLabel>
-                </IonCol>
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.minHumidity.toFixed(2) + "%"}</IonLabel>
+                  <IonLabel>{row.minPpm.toFixed(2)}</IonLabel>
                 </IonCol>
               </IonRow>
             ))}
@@ -193,43 +168,25 @@ const DailyTemperatureReport = (props: any) => {
           )}
         </IonCard>
       )}
-       <IonModal isOpen={isOpen}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>
-                <IonSelect
-                  className="custom-select"
-                  style={{
-                    paddingTop: "10px",
-                  }}
-                  value={props.drillDownReportType}
-                  onIonChange={(e) => setDrillDownReportType(e.detail.value)}
-                >
-                  {props.drillDownReportTypes.map((reportType: string) => (
-                    <IonSelectOption key={reportType} value={reportType}>
-                      {reportType}
-                    </IonSelectOption>
-                  ))}
-                </IonSelect>
-              </IonTitle>
-              <IonButtons slot="end">
-                <IonButton onClick={() => setIsOpen(false)} >Close</IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent className="ion-padding">
+      <IonModal isOpen={isOpen}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>
+          
+            </IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
           <IonCard>
-            
-          {drillDownReportType === "Temperature" ? (
-            <TempChartDaily date={queryDate} />
-          ) : (
-            <HumidityChartDaily date={queryDate} />
-          )}
-        </IonCard>
-          </IonContent>
-        </IonModal>
+            <Co2ChartDaily date={queryDate} />
+          </IonCard>
+        </IonContent>
+      </IonModal>
     </>
   );
 };
 
-export default DailyTemperatureReport;
+export default DailyCo2Report;

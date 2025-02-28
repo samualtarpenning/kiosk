@@ -7,3 +7,10 @@ export interface DailyTemperatureReading {
     minHumidity: number;   
     avgHumidity: number;    
   }
+
+  export interface DailyCo2ConcentrationReading {
+    date: string;
+    maxPpm: number;
+    minPpm: number;
+    avgPpm: number;
+  }

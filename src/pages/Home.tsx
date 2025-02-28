@@ -41,6 +41,7 @@ import { water, thermometer } from "ionicons/icons";
 import TempChartDaily from "../components/TempChart.Daily";
 import moment from "moment";
 import HumidityChartDaily from "../components/HumidityChart.Daily";
+import Co2ChartDaily from "../components/Co2ConcentrationChart.Daily";
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   const device = useSelector((state: any) => state.device);
@@ -287,7 +288,6 @@ const Home: React.FC = () => {
               setReportType("Temperature");
               setIsOpen(true);
             }}
-
           >
             <IonCardHeader>
               <div
@@ -329,6 +329,10 @@ const Home: React.FC = () => {
           <IonCard
             className="status-card"
             style={{ flex: 1, margin: "10px", height: "180px" }}
+            onClick={() => {
+              setReportType("CO₂");
+              setIsOpen(true);
+            }}
           >
             <IonCardHeader>
               <div
@@ -347,6 +351,7 @@ const Home: React.FC = () => {
           <IonCard
             className="status-card"
             style={{ flex: 1, margin: "10px", height: "180px" }}
+          
           >
             <IonCardHeader>
               <div
@@ -373,7 +378,9 @@ const Home: React.FC = () => {
         <IonModal isOpen={isOpen}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>{reportType} - {moment().format("MM/DD/YYYY")}</IonTitle>
+              <IonTitle>
+                {reportType} - {moment().format("MM/DD/YYYY")}
+              </IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
               </IonButtons>
@@ -381,14 +388,18 @@ const Home: React.FC = () => {
           </IonHeader>
           <IonContent className="ion-padding">
             <IonCard>
-            
-          {reportType === "Temperature" && (
-            <TempChartDaily date={moment().local().format("YYYY-MM-DD")} />
-          )}
-          \{reportType === "Humidity" && (
-             <HumidityChartDaily date={moment().local().format("YYYY-MM-DD")}/>
-          )}
-
+              {reportType === "Temperature" && (
+                <TempChartDaily date={moment().local().format("YYYY-MM-DD")} />
+              )}
+              
+              {reportType === "Humidity" && (
+                <HumidityChartDaily
+                  date={moment().local().format("YYYY-MM-DD")}
+                />
+              )}
+              {reportType === "CO₂" && (
+                <Co2ChartDaily date={moment().local().format("YYYY-MM-DD")} />
+              )}
             </IonCard>
           </IonContent>
         </IonModal>

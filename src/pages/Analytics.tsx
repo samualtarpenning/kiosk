@@ -23,6 +23,7 @@ import { arrowBack } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import "./Analytics.css";
 import DailyTemperatureReport from "../components/DailyTemperatureReport";
+import DailyCo2Report from "../components/DailyCo2Report";
 const reportTypes = ["Temperature/Humidity", "CO₂", "pH"];
 const drillDownReportTypes = ["Temperature", "Humidity"];
 const Analytics: React.FC = () => {
@@ -36,40 +37,45 @@ const Analytics: React.FC = () => {
           <IonList>
             <IonItem>
               {showDrillDown && (
-                <div style={{
-                  width: 75,
-                  height: "100%", display: "flex", justifyContent: "center", alignItems: "center"
-              }}>
-                <IonIcon
-                  className="custom-item"
-                  icon={arrowBack}
-                  onClick={() => {
-                    setShowDrillDown(false);
+                <div
+                  style={{
+                    width: 75,
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                />
-              </div>
+                >
+                  <IonIcon
+                    className="custom-item"
+                    icon={arrowBack}
+                    onClick={() => {
+                      setShowDrillDown(false);
+                    }}
+                  />
+                </div>
               )}
               {showDrillDown ? (
                 <IonSelect
-                className="custom-select"
-                label="Report Type"
-                
-                placeholder="Select a report type"
-                value={drillDownReportType}
-                onIonChange={(e) => setDrillDownReportType(e.detail.value)}
-              >
-                {drillDownReportTypes.map((reportType) => (
-                  <IonSelectOption key={reportType} value={reportType}>
-                    {reportType}
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
+                  className="custom-select"
+                  label="Report Type"
+                  placeholder="Select a report type"
+                  value={drillDownReportType}
+                  onIonChange={(e) => setDrillDownReportType(e.detail.value)}
+                >
+                  {drillDownReportTypes.map((reportType) => (
+                    <IonSelectOption key={reportType} value={reportType}>
+                      {reportType}
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
               ) : (
                 <IonSelect
                   className="custom-select"
                   label="Report Type"
                   placeholder="Select a report type"
                   value={reportType}
+                  onIonChange={(e) => setReportType(e.detail.value)}
                 >
                   {reportTypes.map((reportType) => (
                     <IonSelectOption key={reportType} value={reportType}>
@@ -77,16 +83,26 @@ const Analytics: React.FC = () => {
                     </IonSelectOption>
                   ))}
                 </IonSelect>
-                
               )}
             </IonItem>
           </IonList>
         </IonCard>
-        <DailyTemperatureReport
-          showDrillDown={showDrillDown}
-          setShowDrillDown={(value: boolean) => setShowDrillDown(value)}
-          drillDownReportType={drillDownReportType}
-        />
+        {reportType === "Temperature/Humidity" && !showDrillDown && (
+          <DailyTemperatureReport
+            showDrillDown={showDrillDown}
+            setShowDrillDown={(value: boolean) => setShowDrillDown(value)}
+            drillDownReportType={drillDownReportType}
+            drillDownReportTypes={drillDownReportTypes}
+          />
+        )}
+        {reportType === "CO₂" && !showDrillDown && (
+          <DailyCo2Report
+            showDrillDown={showDrillDown}
+            setShowDrillDown={(value: boolean) => setShowDrillDown(value)}
+            drillDownReportType={drillDownReportType}
+            drillDownReportTypes={drillDownReportTypes}
+          />
+        )}
       </IonContent>
     </IonPage>
   );
