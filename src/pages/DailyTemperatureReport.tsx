@@ -25,16 +25,17 @@ import moment from "moment";
 import axios from "axios";
 import { base_url } from "../App/Constants";
 import { chevronBack, chevronForward } from "ionicons/icons";
-import TempChartDaily from "./TempChart.Daily";
+import TempChartDaily from "../components/TempChart.Daily";
 import { DailyTemperatureReading } from "../Models/dailyTemperature";
-import HumidityChartDaily from "./HumidityChart.Daily";
+import HumidityChartDaily from "../components/HumidityChart.Daily";
 const DailyTemperatureReport = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [queryDate, setQueryDate] = useState("");
-  const [drillDownReportType, setDrillDownReportType] = useState("Temperature");
+  const [selectedReportType, setSelectedReportType] = useState("Temperature");
+  const drillDownReportTypes = ["Temperature", "Humidity"];
   const getTotalPages = async () => {
     const res = await axios.get(`${base_url}/getTotalPages`); // Total number of page
     console.log(res.data);
@@ -99,8 +100,8 @@ const DailyTemperatureReport = (props: any) => {
               </IonCol>
             </IonRow>
 
-            {/* Table Data */}
-            {data.map((row: DailyTemperatureReading) => (
+            {data.length > 0 ? (
+            data.map((row: DailyTemperatureReading) => (
               <IonRow
                 key={row.date}
                 className="table-row"
@@ -150,7 +151,13 @@ const DailyTemperatureReport = (props: any) => {
                   <IonLabel>{row.minHumidity.toFixed(2) + "%"}</IonLabel>
                 </IonCol>
               </IonRow>
-            ))}
+            ))) : (
+              <IonRow className="table-row">
+                <IonCol size="8" className="table-cell">
+                  <IonLabel>No data available</IonLabel>
+                </IonCol>
+              </IonRow>
+            )}
           </IonGrid>
           <div className="pagination-container">
             {" "}
@@ -172,16 +179,15 @@ const DailyTemperatureReport = (props: any) => {
               icon={chevronBack}
               onClick={goToPreviousPage}
             />
-            <span className="pagination-text">
-              {currentPage} of {Math.ceil(totalPages / 24)}
-            </span>
-            {currentPage < Math.ceil(totalPages / 24) && (
+           {data.length != 0 && (
               <IonIcon
                 className="pagination-icon"
                 icon={chevronForward}
                 onClick={goToNextPage}
               />
             )}
+
+           
           </div>
         </IonCard>
       ) : (
@@ -193,41 +199,40 @@ const DailyTemperatureReport = (props: any) => {
           )}
         </IonCard>
       )}
-       <IonModal isOpen={isOpen}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>
-                <IonSelect
-                  className="custom-select"
-                  style={{
-                    paddingTop: "10px",
-                  }}
-                  value={props.drillDownReportType}
-                  onIonChange={(e) => setDrillDownReportType(e.detail.value)}
-                >
-                  {props.drillDownReportTypes.map((reportType: string) => (
-                    <IonSelectOption key={reportType} value={reportType}>
-                      {reportType}
-                    </IonSelectOption>
-                  ))}
-                </IonSelect>
-              </IonTitle>
-              <IonButtons slot="end">
-                <IonButton onClick={() => setIsOpen(false)} >Close</IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent className="ion-padding">
+      <IonModal isOpen={isOpen}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>
+              <IonSelect
+                className="custom-select"
+                style={{
+                  paddingTop: "10px",
+                }}
+                value={selectedReportType}
+                onIonChange={(e) => setSelectedReportType(e.detail.value)}
+              >
+                {drillDownReportTypes.map((reportType: string) => (
+                  <IonSelectOption key={reportType} value={reportType}>
+                    {reportType}
+                  </IonSelectOption>
+                ))}
+              </IonSelect>
+            </IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
           <IonCard>
-            
-          {drillDownReportType === "Temperature" ? (
-            <TempChartDaily date={queryDate} />
-          ) : (
-            <HumidityChartDaily date={queryDate} />
-          )}
-        </IonCard>
-          </IonContent>
-        </IonModal>
+            {selectedReportType === "Temperature" ? (
+              <TempChartDaily date={queryDate} />
+            ) : (
+              <HumidityChartDaily date={queryDate} />
+            )}
+          </IonCard>
+        </IonContent>
+      </IonModal>
     </>
   );
 };

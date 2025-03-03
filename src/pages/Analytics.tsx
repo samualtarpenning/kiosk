@@ -22,14 +22,15 @@ import axios from "axios";
 import { arrowBack } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import "./Analytics.css";
-import DailyTemperatureReport from "../components/DailyTemperatureReport";
-import DailyCo2Report from "../components/DailyCo2Report";
+import DailyTemperatureReport from "./DailyTemperatureReport";
+import DailyCo2Report from "./DailyCo2Report";
 const reportTypes = ["Temperature/Humidity", "CO₂", "pH"];
 const drillDownReportTypes = ["Temperature", "Humidity"];
 const Analytics: React.FC = () => {
   const [showDrillDown, setShowDrillDown] = useState(false);
   const [reportType, setReportType] = useState("Temperature/Humidity");
   const [drillDownReportType, setDrillDownReportType] = useState("Temperature");
+
   return (
     <IonPage>
       <IonContent>

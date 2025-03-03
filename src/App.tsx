@@ -52,11 +52,17 @@ import Analytics from "./pages/Analytics";
 import "./App.css";
 import "./theme/variables.css";
 import System from "./pages/System";
+import checkCacheAndReload from "./App/CacheBuster";
 setupIonicReact();
 
 const App: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState("home");
   // const isProd = process.env.NODE_ENV === "production";
+  useEffect(() => {
+    
+    checkCacheAndReload();
+  }, []);
+  
   const isProd = false;
   return (
     <Provider store={store}>

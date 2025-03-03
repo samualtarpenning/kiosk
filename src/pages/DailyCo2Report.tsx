@@ -25,13 +25,13 @@ import moment from "moment";
 import axios from "axios";
 import { base_url } from "../App/Constants";
 import { chevronBack, chevronForward } from "ionicons/icons";
-import TempChartDaily from "./TempChart.Daily";
+import TempChartDaily from "../components/TempChart.Daily";
 import {
   DailyCo2ConcentrationReading,
   DailyTemperatureReading,
 } from "../Models/dailyTemperature";
-import HumidityChartDaily from "./HumidityChart.Daily";
-import Co2ChartDaily from "./Co2ConcentrationChart.Daily";
+import HumidityChartDaily from "../components/HumidityChart.Daily";
+import Co2ChartDaily from "../components/Co2ConcentrationChart.Daily";
 const DailyCo2Report = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ const DailyCo2Report = (props: any) => {
   const [drillDownReportType, setDrillDownReportType] =
     useState("DailyCo2Report");
   const getTotalPages = async () => {
-    const res = await axios.get(`${base_url}/getTotalPages`); // Total number of page
+    const res = await axios.get(`${base_url}/getCo2ReadingsTotalPages`); // Total number of page
     console.log(res.data);
     setTotalPages(res.data);
   };
@@ -97,35 +97,43 @@ const DailyCo2Report = (props: any) => {
             </IonRow>
 
             {/* Table Data */}
-            {data.map((row: DailyCo2ConcentrationReading) => (
-              <IonRow
-                key={row.date}
-                className="table-row"
-                onClick={() => {
-                  setIsOpen(true);
-                  setQueryDate(row.date);
-                }}
-              >
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{moment(row.date).format("MM/DD/YYYY")}</IonLabel>
-                </IonCol>
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>
-                    {
-                      // Display average temperature in Fahrenheit on decimal places
-                      row.avgPpm.toFixed(2)
-                    }
-                  </IonLabel>
-                </IonCol>
+            {data.length > 0 ? (
+              data.map((row: DailyCo2ConcentrationReading) => (
+                <IonRow
+                  key={row.date}
+                  className="table-row"
+                  onClick={() => {
+                    setIsOpen(true);
+                    setQueryDate(row.date);
+                  }}
+                >
+                  <IonCol size="1.7" className="table-cell">
+                    <IonLabel>{moment(row.date).format("MM/DD/YYYY")}</IonLabel>
+                  </IonCol>
+                  <IonCol size="1.7" className="table-cell">
+                    <IonLabel>
+                      {
+                        // Display average temperature in Fahrenheit on decimal places
+                        row.avgPpm.toFixed(2)
+                      }
+                    </IonLabel>
+                  </IonCol>
 
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.maxPpm.toFixed(2)}</IonLabel>
-                </IonCol>
-                <IonCol size="1.7" className="table-cell">
-                  <IonLabel>{row.minPpm.toFixed(2)}</IonLabel>
+                  <IonCol size="1.7" className="table-cell">
+                    <IonLabel>{row.maxPpm.toFixed(2)}</IonLabel>
+                  </IonCol>
+                  <IonCol size="1.7" className="table-cell">
+                    <IonLabel>{row.minPpm.toFixed(2)}</IonLabel>
+                  </IonCol>
+                </IonRow>
+              ))
+            ) : (
+              <IonRow className="table-row">
+                <IonCol size="8" className="table-cell">
+                  <IonLabel>No Data Available</IonLabel>
                 </IonCol>
               </IonRow>
-            ))}
+            )}
           </IonGrid>
           <div className="pagination-container">
             {" "}
@@ -147,10 +155,7 @@ const DailyCo2Report = (props: any) => {
               icon={chevronBack}
               onClick={goToPreviousPage}
             />
-            <span className="pagination-text">
-              {currentPage} of {Math.ceil(totalPages / 24)}
-            </span>
-            {currentPage < Math.ceil(totalPages / 24) && (
+            {data.length != 0 && (
               <IonIcon
                 className="pagination-icon"
                 icon={chevronForward}
@@ -160,20 +165,21 @@ const DailyCo2Report = (props: any) => {
           </div>
         </IonCard>
       ) : (
-        <IonCard>
-          {props.drillDownReportType === "Temperature" ? (
-            <TempChartDaily date={queryDate} />
-          ) : (
-            <HumidityChartDaily date={queryDate} />
-          )}
-        </IonCard>
+        <>
+          {" "}
+          <IonCard>
+            {props.drillDownReportType === "Temperature" ? (
+              <TempChartDaily date={queryDate} />
+            ) : (
+              <HumidityChartDaily date={queryDate} />
+            )}
+          </IonCard>
+        </>
       )}
       <IonModal isOpen={isOpen}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>
-          
-            </IonTitle>
+            <IonTitle></IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
             </IonButtons>
