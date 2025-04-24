@@ -40,11 +40,7 @@ const DailyCo2Report = (props: any) => {
   const [queryDate, setQueryDate] = useState("");
   const [drillDownReportType, setDrillDownReportType] =
     useState("DailyCo2Report");
-  const getTotalPages = async () => {
-    const res = await axios.get(`${base_url}/getCo2ReadingsTotalPages`); // Total number of page
-    console.log(res.data);
-    setTotalPages(res.data);
-  };
+
   const getDailyTemperatureData = async () => {
     const res = await axios.post(`${base_url}/getCo2eReadings`, {
       pageNumber: currentPage,
@@ -52,7 +48,6 @@ const DailyCo2Report = (props: any) => {
     setData(res.data.reverse());
   };
   useEffect(() => {
-    getTotalPages();
     getDailyTemperatureData();
   }, [currentPage]);
 
@@ -62,9 +57,8 @@ const DailyCo2Report = (props: any) => {
 
   // Handlers for the pagination buttons
   const goToNextPage = () => {
-    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-    }
+ 
   };
 
   const goToPreviousPage = () => {

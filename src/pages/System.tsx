@@ -18,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSignalRService } from "../services/signalRService";
 import Loader from "../components/Loader";
+import moment from "moment";
 
 const System: React.FC = () => {
   const device = useSelector((state: any) => state.device);
@@ -165,8 +166,8 @@ const System: React.FC = () => {
                     <IonItem>
                       <p className="system-metric">
                         <b>
-                          Packets Recieved:{" "}
-                          {systemData.network_usage.packets_recv}
+                          Version: 
+                          {localStorage.getItem("appVersion")}
                         </b>
                       </p>
                     </IonItem>
@@ -179,7 +180,12 @@ const System: React.FC = () => {
                     </IonItem>
                     <IonItem>
                       <p className="system-metric">
-                        <b>Hostname: {systemData.system_info.hostname}</b>
+                        <b>
+                          Last Clean Up:{" "}
+                          {moment(localStorage.getItem("lastCleanup")).format(
+                            "MMMM Do YYYY, h:mm:ss a"
+                          )}
+                        </b>
                       </p>
                     </IonItem>
                   </IonList>

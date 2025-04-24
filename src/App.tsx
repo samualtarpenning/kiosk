@@ -52,18 +52,38 @@ import Analytics from "./pages/Analytics";
 import "./App.css";
 import "./theme/variables.css";
 import System from "./pages/System";
-import checkCacheAndReload from "./App/CacheBuster";
 setupIonicReact();
 
 const App: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState("home");
-  // const isProd = process.env.NODE_ENV === "production";
+  const [isNewVersionAvailable, setIsNewVersionAvailable] = useState(false);
   useEffect(() => {
-    
-    checkCacheAndReload();
+    const checkForNewVersion = async () => {
+      try {
+
+        const currentVersion = "1.0.3"; 
+        const storedVersion = localStorage.getItem("appVersion");
+
+        if (storedVersion && storedVersion !== currentVersion) {
+          setIsNewVersionAvailable(true);
+        }
+
+        localStorage.setItem("appVersion", currentVersion);
+      } catch (error) {
+        console.error("Error checking for new version:", error);
+      }
+    };
+
+    checkForNewVersion();
   }, []);
-  
-  const isProd = false;
+
+  useEffect(() => {
+    if (isNewVersionAvailable) {
+      console.log(
+        "A new version of the app is available. Please refresh the page."
+      );
+    }
+  }, [isNewVersionAvailable]);
   return (
     <Provider store={store}>
       <IonApp color-theme="dark">
